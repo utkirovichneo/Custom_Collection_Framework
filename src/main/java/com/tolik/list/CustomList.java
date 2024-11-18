@@ -2,7 +2,7 @@ package com.tolik.list;
 
 import java.util.*;
 
-public interface CustomList<E> {
+public interface CustomList<E> extends Iterable<E> {
 
     boolean add(E e);
 
@@ -38,11 +38,14 @@ public interface CustomList<E> {
 
     boolean remove(Object o);
 
+    E removeFirst();
+
+    E removeLast();
+
     E set(int index, E e);
 
     int size();
 
     List<E> subList(int fromIndex, int toIndex);
 
-    Object[] toArray();
 }

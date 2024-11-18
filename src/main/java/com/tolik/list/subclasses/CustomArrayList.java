@@ -1,6 +1,9 @@
-package com.tolik.list;
+package com.tolik.list.subclasses;
+
+import com.tolik.list.CustomList;
 
 import java.util.*;
+import java.util.function.Consumer;
 
 public class CustomArrayList<E> implements CustomList<E> {
 
@@ -200,6 +203,16 @@ public class CustomArrayList<E> implements CustomList<E> {
     }
 
     @Override
+    public E removeFirst() {
+        return remove(0);
+    }
+
+    @Override
+    public E removeLast() {
+        return remove(size - 1);
+    }
+
+    @Override
     public E set(int index, E e) {
         Objects.checkIndex(index, this.size);
             E oldValue = elementData(index);
@@ -218,16 +231,27 @@ public class CustomArrayList<E> implements CustomList<E> {
     }
 
     @Override
-    public Object[] toArray() {
-        return new Object[0];
+    public Iterator<E> iterator() {
+        return
+                new Iterator<E>() {
+
+            int currentIndex = 0;
+
+            @Override
+            public boolean hasNext() {
+                return currentIndex < size;
+            }
+
+            @Override
+            public E next() {
+                if(!hasNext()) throw new NoSuchElementException();
+                return get(currentIndex++);
+            }
+        };
     }
 
     @Override
     public String toString() {
-        StringJoiner joiner = new StringJoiner(", ", "[", "]");
-            for (int i = 0; i < size; i++) {
-                joiner.add(elementData(i).toString());
-            }
-        return joiner.toString();
+        return Arrays.toString(Arrays.copyOf(elements, size));
     }
 }
